@@ -1,0 +1,37 @@
+{
+  "name": "sameday-sdk",
+  "version": "1.0.0",
+  "description": "A simple SDK for Sameday Courier for nodejs env",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "Sameday",
+    "Courier",
+    "Nodejs",
+    "SDK"
+  ],
+  "author": "Websitefactory",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^20.14.9",
+    "@types/qs": "^6.9.16",
+    "axios-mock-adapter": "^2.1.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "qs": "^6.13.0"
+  }
+}
