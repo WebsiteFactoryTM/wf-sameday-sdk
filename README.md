@@ -2,6 +2,8 @@
 
 This SDK simplifies the integration with the Sameday API, allowing you to create shipments, track shipments, and retrieve available services. It provides essential functionality to integrate shipping solutions directly into your application with minimal setup.
 
+Work is still in progress
+
 ## Features
 __**Authenticate:** Automatically handles authentication with the Sameday API, obtaining and managing the token needed for subsequent requests.__
 __**Create Shipments:**** Easily create a new shipment using predefined data or custom shipment details.__
