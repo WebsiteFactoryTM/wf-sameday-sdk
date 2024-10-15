@@ -29,6 +29,23 @@ export declare enum DeliveryInterval {
     "18-20" = 14,
     "20-22" = 15
 }
+export declare type Connection = {
+    username: string | undefined;
+    password: string | undefined;
+    apiUrl: string;
+    sandbox?: boolean;
+};
+export declare type DefaultShipmentData = Partial<ShipmentData>;
+export declare interface SamedayClient {
+    authenticate: () => Promise<string | null>;
+    createShipment: (shipmentData: Partial<ShipmentData>) => Promise<AWB | undefined>;
+    getServices: () => Promise<void | ServiceType[]>;
+    trackShipment: (awb: string) => Promise<any>;
+    setPickupPoint: (newPickupPoint: string) => void;
+    getPickupPoints: (page?: number, perPage?: number) => Promise<void | PickupPointResponse>;
+    getCities: (queryParams?: CityQueryParams) => Promise<void | GetCitiesResponse>;
+    getCounties: (queryParams?: CountyQueryParams) => Promise<void | GetCountiesResponse>;
+}
 export declare interface ThirdPartyDetails {
     county?: string;
     city?: string;
@@ -141,5 +158,112 @@ export declare interface ServiceType {
         tax: number;
         packageType: number;
     };
+}
+export declare interface PickupPointResponse {
+    total: number;
+    currentPage: number;
+    pages: number;
+    perPage: number;
+    data: PickupPoint[];
+}
+export declare interface PickupPoint {
+    country: {
+        id: number;
+        name: string;
+        code: string;
+    };
+    id: number;
+    county: {
+        id: number;
+        name: string;
+        code: string;
+    };
+    city: {
+        samedayDeliveryAgency: string;
+        samedayPickupAgency: string;
+        id: number;
+        name: string;
+        extraKM: number;
+    };
+    address: string;
+    postalCode: string;
+    defaultPickupPoint: boolean;
+    pickupPointContactPerson: {
+        id: number;
+        name: string;
+        position: string;
+        phoneNumber: string;
+        email: string;
+        defaultContactPerson: boolean;
+        nationality: string;
+        nationalID: string;
+    };
+    alias: string;
+    cutOff: string;
+    deliveryInterval: string;
+    status: boolean;
+}
+export declare interface CityQueryParams {
+    name?: string;
+    county?: string;
+    postalCode?: string;
+    countryCode?: string;
+    page?: number;
+    countPerPage?: number;
+}
+export declare interface City {
+    samedayDeliveryAgencyId: number;
+    samedayDeliveryAgency: string;
+    samedayPickupAgency: string;
+    nextDayDeliveryAgencyId: number;
+    nextDayDeliveryAgency: string;
+    nextDayPickupAgency: string;
+    whiteDeliveryAgencyId: number;
+    whiteDeliveryAgency: string;
+    whitePickupAgency: string;
+    logisticCircle: string;
+    country: {
+        id: number;
+        name: string;
+        code: string;
+    };
+    id: number;
+    name: string;
+    extraKM: number;
+    village: string;
+    brokerDelivery: number;
+    postalCode: string;
+    county: {
+        name: string;
+        id: number;
+        code: string;
+    };
+}
+export declare interface GetCitiesResponse {
+    total: number;
+    currentPage: number;
+    pages: number;
+    perPage: number;
+    data: City[];
+}
+export declare interface CountyQueryParams {
+    name?: string;
+    countryCode?: string;
+    page?: number;
+    countPerPage?: number;
+}
+export declare interface County {
+    countryId: 0;
+    country: "string";
+    id: 0;
+    name: "string";
+    code: "string";
+}
+export declare interface GetCountiesResponse {
+    total: number;
+    currentPage: number;
+    pages: number;
+    perPage: number;
+    data: County[];
 }
 //# sourceMappingURL=types.d.ts.map

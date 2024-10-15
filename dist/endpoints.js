@@ -8,5 +8,6 @@ exports.endpoints = {
     COUNTY: "/api/geolocation/county",
     CITY: "/api/geolocation/city",
     CREATE_AWB: "/api/awb",
+    TRACK: "/api/client/status-sync",
 };
 //# sourceMappingURL=endpoints.js.map

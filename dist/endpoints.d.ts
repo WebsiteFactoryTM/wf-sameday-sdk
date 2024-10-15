@@ -5,5 +5,6 @@ export declare const endpoints: {
     COUNTY: string;
     CITY: string;
     CREATE_AWB: string;
+    TRACK: string;
 };
 //# sourceMappingURL=endpoints.d.ts.map
