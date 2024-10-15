@@ -275,7 +275,7 @@ export declare interface ServiceType {
     id: number;
     tax: number;
     packageType: number;
-  };
+  }[];
 }
 
 export declare interface PickupPointResponse {
