@@ -330,7 +330,7 @@ export declare interface PickupPoint {
 
 export declare interface CityQueryParams {
   name?: string;
-  county?: string;
+  county?: string; // recommended to use the county code here
   postalCode?: string;
   countryCode?: string;
   page?: number;

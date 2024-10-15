@@ -102,24 +102,6 @@ sameday.getPickupPoints()
   });
 ```
 
-### Get Cities
-You can also retrieve a list of cities using query parameters like county, postalCode, or countryCode:
-
-```typescript
-sameday.getCities({
-  county: "Timis",
-  countryCode: "RO",
-  page: 1,
-  countPerPage: 10
-})
-  .then((response) => {
-    console.log("Cities:", response.data);
-  })
-  .catch((error) => {
-    console.error("Error fetching cities:", error);
-  });
-```
-
 ### Get Counties
 To fetch a list of counties, you can use the following:
 
@@ -138,6 +120,25 @@ sameday.getCounties({
   });
 ```
 
+
+### Get Cities
+You can also retrieve a list of cities using query parameters like county, postalCode, or countryCode:
+
+```typescript
+sameday.getCities({
+  name: "Timisoara",
+  county: "39", // Sameday recommends using county IDs for an accurate match. So first get the counties and then the cities by county
+  countryCode: "RO",
+  page: 1,
+  countPerPage: 10
+})
+  .then((response) => {
+    console.log("Cities:", response.data);
+  })
+  .catch((error) => {
+    console.error("Error fetching cities:", error);
+  });
+```
 
 ## Configuration
 The SDK accepts a configuration object when initializing. The following fields are required:
