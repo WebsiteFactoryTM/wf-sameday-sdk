@@ -24,25 +24,116 @@ type Connection = {
 type DefaultShipmentData = Partial<ShipmentData>;
 
 export interface SamedayClient {
+  /**
+   * Authenticates the user with the Sameday API.
+   *
+   * This method sends a POST request to the authentication endpoint using the provided username and password.
+   * If authentication is successful, it returns an authentication token and sets the token expiration time.
+   *
+   * @returns {Promise<string | null>} The authentication token if successful, or `null` if the token is not obtained.
+   * @throws {Error} Throws an error if the authentication request fails.
+   *
+   * Example response:
+   * {
+   *   "token": "your-authentication-token",
+   *   "expire_at_utc": "2024-10-20T10:00:00Z"
+   * }
+   */
+  authenticate: () => Promise<string | null>;
+  /**
+   * Creates a new shipment with the provided shipment data.
+   *
+   * This method constructs a shipment request by merging the provided shipment data
+   * with default values if necessary. It sends the request to the Sameday API's
+   * shipment creation endpoint and returns the response containing the AWB (Air Waybill) number.
+   *
+   * @param {Partial<ShipmentData>} shipmentData - Data for creating the shipment such as
+   *        package type, weight, recipient details, and more.
+   * @returns {Promise<AWB | undefined>} - Returns the AWB response if successful,
+   *        or undefined if the request fails.
+   * @throws {Error} - Throws an error if the request fails.
+   */
   createShipment: (
     shipmentData: Partial<ShipmentData>
   ) => Promise<AWB | undefined>;
+
+  /**
+   * Retrieves available services from the Sameday API.
+   *
+   * This method makes an authenticated request to fetch the list of available services
+   * for creating shipments, such as express delivery, standard delivery, etc.
+   *
+   * @returns {Promise<ServiceType[]>} - Returns a list of available services.
+   * @throws {Error} - Throws an error if the request fails.
+   */
   getServices: () => Promise<ServiceType[]>;
+
+  /**
+   * Retrieves available services from the Sameday API.
+   *
+   * This method makes an authenticated request to fetch the list of available services
+   * for creating shipments, such as express delivery, standard delivery, etc.
+   *
+   * @returns {Promise<ServiceType[]>} - Returns a list of available services.
+   * @throws {Error} - Throws an error if the request fails.
+   */
   trackShipment: (awb: string) => Promise<any>;
+  /**
+   * Updates the default pickup point for creating shipments.
+   *
+   * This method allows updating the default pickup point which will be used
+   * in subsequent shipment creation requests.
+   *
+   * @param {string} newPickupPoint - The ID of the new pickup point.
+   */
   setPickupPoint: (newPickupPoint: string) => void;
-  authenticate: () => Promise<string | null>;
+
+  /**
+   * Retrieves a list of available pickup points.
+   *
+   * This method sends an authenticated GET request to fetch pickup points with pagination
+   * based on the page number and results per page provided.
+   *
+   * @param {number} [page=1] - The page number to retrieve (defaults to 1).
+   * @param {number} [perPage=50] - The number of results per page (defaults to 50).
+   * @returns {Promise<PickupPointResponse | void>} - Returns a list of pickup points
+   *        or void if the request fails.
+   * @throws {Error} - Throws an error if the request fails.
+   */
   getPickupPoints: (
     page?: number,
     perPage?: number
   ) => Promise<void | PickupPointResponse>;
-
+  /**
+   * Retrieves a list of cities based on query parameters.
+   *
+   * This method sends an authenticated GET request to fetch cities using the optional query
+   * parameters such as name, county, countryCode, page, and countPerPage.
+   *
+   * @param {CityQueryParams} [queryParams] - Optional query parameters for filtering cities.
+   * @returns {Promise<GetCitiesResponse | undefined>} - Returns a list of cities based on
+   *        the query parameters or undefined if the request fails.
+   * @throws {Error} - Throws an error if the request fails.
+   */
   getCities: (
     queryParams?: CityQueryParams
   ) => Promise<void | GetCitiesResponse>;
+  /**
+   * Retrieves a list of counties based on query parameters.
+   *
+   * This method sends an authenticated GET request to fetch counties using the optional query
+   * parameters such as name, countryCode, page, and countPerPage.
+   *
+   * @param {CountyQueryParams} [queryParams] - Optional query parameters for filtering counties.
+   * @returns {Promise<GetCountiesResponse | undefined>} - Returns a list of counties based on
+   *        the query parameters or undefined if the request fails.
+   * @throws {Error} - Throws an error if the request fails.
+   */
   getCounties: (
     queryParams?: CountyQueryParams
   ) => Promise<void | GetCountiesResponse>;
 }
+
 /**
  * Creates a Sameday client with the provided connection details and default shipment data.
  * Handles authentication, shipment creation, service retrieval, shipment tracking, pickup point setting,

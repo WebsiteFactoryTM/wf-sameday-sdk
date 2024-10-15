@@ -10,6 +10,9 @@ Work is still in progress
 - **Track Shipments:** Track an existing shipment by providing the AWB (Air Waybill) number.
 - **Get Services:** Retrieve a list of available services provided by the Sameday delivery system.
 - **Set Pickup Point:** Set or update the default pickup point for shipments.
+- **Get Pickup Points:** Fetch the available pickup points.
+- **Get Cities:** Retrieve the cities and optionally filter by parameters such as county, postal code, or country code.
+- **Get Counties:** Retrieve counties and optionally filter by country.
 
 ## Installation
 Install the SDK using npm or yarn:
@@ -85,6 +88,57 @@ sameday.getServices()
     console.error("Error retrieving services:", error);
   });
 ```
+
+### Get Pickup Points
+To retrieve a list of pickup points:
+
+
+```typescript
+sameday.getPickupPoints()
+  .then((response) => {
+    console.log("Pickup points:", response.data);
+  })
+  .catch((error) => {
+    console.error("Error fetching pickup points:", error);
+  });
+```
+
+### Get Cities
+You can also retrieve a list of cities using query parameters like county, postalCode, or countryCode:
+
+```typescript
+sameday.getCities({
+  county: "Timis",
+  countryCode: "RO",
+  page: 1,
+  countPerPage: 10
+})
+  .then((response) => {
+    console.log("Cities:", response.data);
+  })
+  .catch((error) => {
+    console.error("Error fetching cities:", error);
+  });
+```
+
+### Get Counties
+To fetch a list of counties, you can use the following:
+
+
+```typescript
+sameday.getCounties({
+  countryCode: "RO",
+  page: 1,
+  countPerPage: 10
+})
+  .then((response) => {
+    console.log("Counties:", response.data);
+  })
+  .catch((error) => {
+    console.error("Error fetching counties:", error);
+  });
+```
+
 
 ## Configuration
 The SDK accepts a configuration object when initializing. The following fields are required:
