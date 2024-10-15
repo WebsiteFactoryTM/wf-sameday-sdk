@@ -17,5 +17,10 @@ const sameday = createSamedayClient({
   sandbox: true,
 });
 // sameday.createShipment(delivery1);
-sameday.getServices();
-sameday.createShipment(delivery1);
+sameday.getCounties({
+  name: "Timis",
+});
+
+sameday.getCities({
+  county: "39",
+});

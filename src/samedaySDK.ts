@@ -1,7 +1,17 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
 import { endpoints } from "./endpoints";
-import { AWB, AwbPayment, ServiceType, ShipmentData } from "./types";
+import {
+  AWB,
+  AwbPayment,
+  CityQueryParams,
+  CountyQueryParams,
+  GetCitiesResponse,
+  GetCountiesResponse,
+  PickupPointResponse,
+  ServiceType,
+  ShipmentData,
+} from "./types";
 import qs from "qs";
 
 type Connection = {
@@ -21,7 +31,27 @@ export interface SamedayClient {
   trackShipment: (awb: string) => Promise<any>;
   setPickupPoint: (newPickupPoint: string) => void;
   authenticate: () => Promise<string | null>;
+  getPickupPoints: (
+    page?: number,
+    perPage?: number
+  ) => Promise<void | PickupPointResponse>;
+
+  getCities: (
+    queryParams?: CityQueryParams
+  ) => Promise<void | GetCitiesResponse>;
+  getCounties: (
+    queryParams?: CountyQueryParams
+  ) => Promise<void | GetCountiesResponse>;
 }
+/**
+ * Creates a Sameday client with the provided connection details and default shipment data.
+ * Handles authentication, shipment creation, service retrieval, shipment tracking, pickup point setting,
+ * and fetching of cities and counties.
+ *
+ * @param connection - The connection details including username, password, API URL, and sandbox mode.
+ * @param defaultShipmentData - The default shipment data to be used if not provided in individual shipment requests.
+ * @returns The Sameday client object with various methods for interacting with the Sameday API.
+ */
 function createSamedayClient(
   connection: Connection,
   defaultShipmentData: DefaultShipmentData = {
@@ -194,6 +224,78 @@ function createSamedayClient(
     }
   }
 
+  async function getPickupPoints(
+    page = 1,
+    perPage = 50
+  ): Promise<PickupPointResponse | void> {
+    const token = await ensureAuthenticated();
+
+    try {
+      const response = await client.get(endpoints.PICKUP_POINTS, {
+        headers: { "X-Auth-Token": token },
+        params: {
+          page,
+          perPage,
+        },
+      });
+
+      if (connection.sandbox)
+        console.log("Response for getPickupPoints: ", response.data);
+
+      return response.data as PickupPointResponse;
+    } catch (error) {
+      const e = error instanceof AxiosError ? error.response?.data : error;
+      console.error("Error fetching pickup points:", e);
+    }
+  }
+
+  async function getCities(
+    queryParams?: CityQueryParams
+  ): Promise<GetCitiesResponse | undefined> {
+    const token = await ensureAuthenticated();
+
+    const queryString = qs.stringify(queryParams, {
+      skipNulls: true,
+      addQueryPrefix: true,
+    });
+
+    try {
+      const response = await client.get(`${endpoints.CITY}${queryString}`, {
+        headers: { "X-Auth-Token": token },
+      });
+      if (connection.sandbox)
+        console.log("Response for getCities: ", response.data);
+
+      return response.data as GetCitiesResponse;
+    } catch (error) {
+      const e = error instanceof AxiosError ? error.response?.data : error;
+      console.error("Error fetching cities:", e);
+    }
+  }
+
+  async function getCounties(
+    queryParams?: CountyQueryParams
+  ): Promise<GetCountiesResponse | undefined> {
+    const token = await ensureAuthenticated();
+
+    const queryString = qs.stringify(queryParams, {
+      skipNulls: true,
+      addQueryPrefix: true,
+    });
+
+    try {
+      const response = await client.get(`${endpoints.COUNTY}${queryString}`, {
+        headers: { "X-Auth-Token": token },
+      });
+      if (connection.sandbox)
+        console.log("Response for getCounties: ", response.data);
+      return response.data as GetCountiesResponse;
+    } catch (error) {
+      const e = error instanceof AxiosError ? error.response?.data : error;
+      console.error("Error fetching counties:", e);
+    }
+  }
+
   function setPickupPoint(newPickupPoint: string): void {
     pickupPoint = newPickupPoint;
   }
@@ -204,6 +306,9 @@ function createSamedayClient(
     trackShipment,
     setPickupPoint,
     authenticate,
+    getPickupPoints,
+    getCities,
+    getCounties,
   };
 }
 
