@@ -1,13 +1,12 @@
 # Sameday SDK
 
-This SDK simplifies the integration with the Sameday API, allowing you to create shipments, track shipments, and retrieve available services. It provides essential functionality to integrate shipping solutions directly into your application with minimal setup.
+This SDK simplifies the integration with the Sameday API, allowing you to create shipments, and retrieve available services. It provides essential functionality to integrate shipping solutions directly into your application with minimal setup.
 
 Work is still in progress
 
 ## Features
 - **Authenticate:** Automatically handles authentication with the Sameday API, obtaining and managing the token needed for subsequent requests.
 - **Create Shipments:** Easily create a new shipment using predefined data or custom shipment details.
-- **Track Shipments:** Track an existing shipment by providing the AWB (Air Waybill) number.
 - **Get Services:** Retrieve a list of available services provided by the Sameday delivery system.
 - **Set Pickup Point:** Set or update the default pickup point for shipments.
 - **Get Pickup Points:** Fetch the available pickup points.
