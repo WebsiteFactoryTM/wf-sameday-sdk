@@ -72,9 +72,7 @@ export declare interface SamedayClient {
    *        or undefined if the request fails.
    * @throws {Error} - Throws an error if the request fails.
    */
-  createShipment: (
-    shipmentData: Partial<ShipmentData>
-  ) => Promise<AWB | undefined>;
+  createShipment: (shipmentData: Partial<ShipmentData>) => Promise<AWB>;
 
   /**
    * Retrieves available services from the Sameday API.
@@ -85,7 +83,7 @@ export declare interface SamedayClient {
    * @returns {Promise<ServiceType[]>} - Returns a list of available services.
    * @throws {Error} - Throws an error if the request fails.
    */
-  getServices: () => Promise<void | ServiceType[]>;
+  getServices: () => Promise<ServiceType[]>;
 
   /**
    * Retrieves available services from the Sameday API.
@@ -122,7 +120,7 @@ export declare interface SamedayClient {
   getPickupPoints: (
     page?: number,
     perPage?: number
-  ) => Promise<void | PickupPointResponse>;
+  ) => Promise<PickupPointResponse>;
   /**
    * Retrieves a list of cities based on query parameters.
    *
@@ -134,9 +132,7 @@ export declare interface SamedayClient {
    *        the query parameters or undefined if the request fails.
    * @throws {Error} - Throws an error if the request fails.
    */
-  getCities: (
-    queryParams?: CityQueryParams
-  ) => Promise<void | GetCitiesResponse>;
+  getCities: (queryParams?: CityQueryParams) => Promise<GetCitiesResponse>;
   /**
    * Retrieves a list of counties based on query parameters.
    *
@@ -150,7 +146,7 @@ export declare interface SamedayClient {
    */
   getCounties: (
     queryParams?: CountyQueryParams
-  ) => Promise<void | GetCountiesResponse>;
+  ) => Promise<GetCountiesResponse>;
 }
 
 /**

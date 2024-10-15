@@ -92,7 +92,7 @@ function createSamedayClient(
 
   async function createShipment(
     shipmentData: Partial<ShipmentData>
-  ): Promise<AWB | undefined> {
+  ): Promise<AWB> {
     const token = await ensureAuthenticated();
 
     const {
@@ -144,10 +144,11 @@ function createSamedayClient(
         errors: { children },
       } = e;
       console.error("Error creating shipment:", children);
+      throw new Error(e);
     }
   }
 
-  async function getServices(): Promise<void | ServiceType[]> {
+  async function getServices(): Promise<ServiceType[]> {
     const token = await ensureAuthenticated();
 
     try {
@@ -165,6 +166,7 @@ function createSamedayClient(
         errors: { children },
       } = e;
       console.error("Error getting services:", children);
+      throw new Error(e);
     }
   }
 
@@ -182,9 +184,7 @@ function createSamedayClient(
       return response.data;
     } catch (error) {
       const e = error instanceof AxiosError ? error.response : error;
-      // const {
-      //   errors: { children },
-      // } = e;
+      console.error(e);
       throw new Error(`Error tracking shipment: ${error}`);
     }
   }
@@ -192,7 +192,7 @@ function createSamedayClient(
   async function getPickupPoints(
     page = 1,
     perPage = 50
-  ): Promise<PickupPointResponse | void> {
+  ): Promise<PickupPointResponse> {
     const token = await ensureAuthenticated();
 
     try {
@@ -211,12 +211,13 @@ function createSamedayClient(
     } catch (error) {
       const e = error instanceof AxiosError ? error.response?.data : error;
       console.error("Error fetching pickup points:", e);
+      throw new Error(e);
     }
   }
 
   async function getCities(
     queryParams?: CityQueryParams
-  ): Promise<GetCitiesResponse | undefined> {
+  ): Promise<GetCitiesResponse> {
     const token = await ensureAuthenticated();
 
     const queryString = qs.stringify(queryParams, {
@@ -235,12 +236,13 @@ function createSamedayClient(
     } catch (error) {
       const e = error instanceof AxiosError ? error.response?.data : error;
       console.error("Error fetching cities:", e);
+      throw new Error(e);
     }
   }
 
   async function getCounties(
     queryParams?: CountyQueryParams
-  ): Promise<GetCountiesResponse | undefined> {
+  ): Promise<GetCountiesResponse> {
     const token = await ensureAuthenticated();
 
     const queryString = qs.stringify(queryParams, {
@@ -258,6 +260,7 @@ function createSamedayClient(
     } catch (error) {
       const e = error instanceof AxiosError ? error.response?.data : error;
       console.error("Error fetching counties:", e);
+      throw new Error(e);
     }
   }
 
