@@ -1,6 +1,6 @@
 {
   "name": "sameday-sdk",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A simple SDK for Sameday Courier for nodejs env",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
