@@ -1,25 +1,3 @@
 export { default as createSamedayClient } from "./samedaySDK";
 
-export type {
-  SamedayClient,
-  Connection,
-  DefaultShipmentData,
-  PackageType,
-  AwbPayment,
-  PersonType,
-  DeliveryInterval,
-  ThirdPartyDetails,
-  AWBRecipientDetails,
-  AWB,
-  ParcelDetails,
-  ShipmentData,
-  ServiceType,
-  PickupPointResponse,
-  PickupPoint,
-  CityQueryParams,
-  City,
-  GetCitiesResponse,
-  CountyQueryParams,
-  County,
-  GetCountiesResponse,
-} from "./types";
+export * from "./types";
