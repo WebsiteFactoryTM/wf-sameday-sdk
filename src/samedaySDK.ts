@@ -18,7 +18,11 @@ import {
 import qs from "qs";
 
 function createSamedayClient(
-  connection: Connection,
+  connection: Connection = {
+    username: process.env.SAMEDAY_USERNAME,
+    password: process.env.SAMEDAY_PASSWORD,
+    apiUrl: process.env.SAMEDAY_URI,
+  },
   defaultShipmentData: DefaultShipmentData = {
     pickupPoint: "261421",
     packageType: 1,

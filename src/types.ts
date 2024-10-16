@@ -36,7 +36,7 @@ export enum DeliveryInterval {
 export declare type Connection = {
   username: string | undefined;
   password: string | undefined;
-  apiUrl: string;
+  apiUrl: string | undefined;
   sandbox?: boolean;
 };
 
