@@ -44,13 +44,13 @@ function createSamedayClient(
     return config;
   });
 
-  if (!connection.password || !connection.username) {
-    throw new Error("Username and password are required");
-  }
+  // if (!connection.password || !connection.username) {
+  //   throw new Error("Username and password are required");
+  // }
 
-  if (!token) {
-    authenticate();
-  }
+  // if (!token) {
+  //   authenticate();
+  // }
 
   async function authenticate(): Promise<string | null> {
     try {
