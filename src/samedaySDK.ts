@@ -21,7 +21,7 @@ function createSamedayClient(
   connection: Connection = {
     username: process.env.SAMEDAY_USERNAME,
     password: process.env.SAMEDAY_PASSWORD,
-    apiUrl: process.env.SAMEDAY_URI,
+    apiUrl: process.env.SAMEDAY_URI || "https://api.sameday.ro",
   },
   defaultShipmentData: DefaultShipmentData = {
     pickupPoint: "261421",
@@ -37,14 +37,17 @@ function createSamedayClient(
   let tokenExpiration: number | null = null;
   let pickupPoint: string | null = null;
   const client: AxiosInstance = axios.create({
-    baseURL: connection.apiUrl,
+    baseURL: "https://api.sameday.ro",
     headers: {
       accept: "application/json",
       "Content-Type": "application/x-www-form-urlencoded",
     },
   });
+  console.log(client.defaults.baseURL); // Should log 'https://api.sameday.ro'
 
   client.interceptors.request.use((config) => {
+    console.log(config);
+
     return config;
   });
 
@@ -58,14 +61,18 @@ function createSamedayClient(
 
   async function authenticate(): Promise<string | null> {
     try {
-      const response = await client.post(endpoints.AUTH, "remember_me=true", {
-        headers: {
-          accept: "application/json",
-          "X-Auth-Username": connection.username, // Username from environment variables
-          "X-Auth-Password": connection.password, // Password from environment variables
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
+      const response = await client.post(
+        `${connection.apiUrl}${endpoints.AUTH}`,
+        "remember_me=true",
+        {
+          headers: {
+            accept: "application/json",
+            "X-Auth-Username": connection.username, // Username from environment variables
+            "X-Auth-Password": connection.password, // Password from environment variables
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
       token = response?.data?.token;
       tokenExpiration = response.data.expire_at_utc; // Store UTC expiration time
 
